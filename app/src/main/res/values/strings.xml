@@ -6,4 +6,15 @@
     <string name="genre_empty_message">No genres available</string>
     <string name="action_retry">Retry</string>
     <string name="movie_empty_message">No movies found for this genre</string>
+
+    <string name="movie_detail_screen_title">Movie Detail</string>
+    <string name="reviews_screen_title">Reviews</string>
+    <string name="action_watch_trailer">Watch Trailer</string>
+    <string name="action_view_reviews">Reviews</string>
+    <string name="movie_detail_no_overview">No overview available</string>
+    <string name="movie_detail_no_genres">Genre unavailable</string>
+    <string name="movie_detail_runtime_minutes">%1$d min</string>
+    <string name="movie_detail_rating_format">★ %1$.1f</string>
+    <string name="movie_detail_trailer_unavailable">Unable to open trailer</string>
+    <string name="reviews_placeholder">Reviews for movie id=%1$d (coming in Phase 5)</string>
 </resources>

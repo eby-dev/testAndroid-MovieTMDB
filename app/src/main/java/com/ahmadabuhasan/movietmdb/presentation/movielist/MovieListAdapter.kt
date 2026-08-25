@@ -12,11 +12,13 @@ import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MovieListAdapter : PagingDataAdapter<Movie, MovieListAdapter.MovieViewHolder>(DiffCallback) {
+class MovieListAdapter(
+    private val onMovieClick: (Movie) -> Unit
+) : PagingDataAdapter<Movie, MovieListAdapter.MovieViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding, onMovieClick)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -24,7 +26,8 @@ class MovieListAdapter : PagingDataAdapter<Movie, MovieListAdapter.MovieViewHold
     }
 
     class MovieViewHolder(
-        private val binding: ItemMovieBinding
+        private val binding: ItemMovieBinding,
+        private val onMovieClick: (Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -34,6 +37,7 @@ class MovieListAdapter : PagingDataAdapter<Movie, MovieListAdapter.MovieViewHold
             binding.textTitle.text = movie.title
             binding.textReleaseDate.text = formatReleaseDate(movie.releaseDate)
             binding.textRating.text = String.format(Locale.US, "★ %.1f", movie.voteAverage)
+            binding.root.setOnClickListener { onMovieClick(movie) }
 
             Glide.with(binding.imagePoster)
                 .load(movie.posterUrl)

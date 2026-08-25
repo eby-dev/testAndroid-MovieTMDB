@@ -10,6 +10,7 @@ import com.ahmadabuhasan.movietmdb.data.paging.MoviePagingSource
 import com.ahmadabuhasan.movietmdb.data.remote.api.TmdbApiService
 import com.ahmadabuhasan.movietmdb.domain.model.Genre
 import com.ahmadabuhasan.movietmdb.domain.model.Movie
+import com.ahmadabuhasan.movietmdb.domain.model.MovieDetail
 import com.ahmadabuhasan.movietmdb.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -38,5 +39,15 @@ class MovieRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = MOVIE_PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { MoviePagingSource(api, genreId) }
         ).flow.map { pagingData -> pagingData.map { it.toDomain() } }
+    }
+
+    override suspend fun getMovieDetail(movieId: Int): MovieDetail {
+        try {
+            return api.getMovieDetail(movieId).toDomain()
+        } catch (e: IOException) {
+            throw e.toAppError()
+        } catch (e: HttpException) {
+            throw e.toAppError()
+        }
     }
 }
