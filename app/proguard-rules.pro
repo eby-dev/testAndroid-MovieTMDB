@@ -10,10 +10,11 @@
     native <methods>;
 }
 
-# Gson populates DTO fields via reflection, keyed off @SerializedName - R8 shrinking can't
-# see that usage, so it would otherwise strip/rename the fields and break deserialization.
--keepclassmembers class com.ahmadabuhasan.movietmdb.data.remote.dto.** {
-    <fields>;
+# Gson deserializes these via reflection - keepclassmembers alone isn't enough since R8's
+# inlining/merging can still change class identity in ways that break Gson at runtime
+# (observed as InternalSyntheticThrowCCEIfNotNull crashes), so the whole class is kept.
+-keep class com.ahmadabuhasan.movietmdb.data.remote.dto.** {
+    *;
 }
 -keepattributes Signature
 -keepattributes *Annotation*
