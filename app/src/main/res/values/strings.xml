@@ -16,5 +16,5 @@
     <string name="movie_detail_runtime_minutes">%1$d min</string>
     <string name="movie_detail_rating_format">★ %1$.1f</string>
     <string name="movie_detail_trailer_unavailable">Unable to open trailer</string>
-    <string name="reviews_placeholder">Reviews for movie id=%1$d (coming in Phase 5)</string>
+    <string name="reviews_empty_message">No reviews yet for this movie</string>
 </resources>
