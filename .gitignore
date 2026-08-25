@@ -16,6 +16,7 @@ Thumbs.db
 # Signing / secrets
 *.jks
 *.keystore
+*.keystore.b64
 key.properties
 
 # Generated files

@@ -1,5 +1,6 @@
 import java.io.FileInputStream
 import java.util.Properties
+import org.gradle.api.GradleException
 
 plugins {
     alias(libs.plugins.android.application)
@@ -15,29 +16,76 @@ val localProperties = Properties().apply {
     }
 }
 
+fun resolveProperty(key: String): String =
+    localProperties.getProperty(key)?.takeIf { it.isNotBlank() }
+        ?: System.getenv(key).orEmpty()
+
+val tmdbApiKey: String = resolveProperty("TMDB_API_KEY")
+
+val keystoreFile: String = resolveProperty("KEYSTORE_FILE")
+val keystorePassword: String = resolveProperty("KEYSTORE_PASSWORD")
+val releaseKeyAlias: String = resolveProperty("KEY_ALIAS")
+val releaseKeyPassword: String = resolveProperty("KEY_PASSWORD")
+
+gradle.taskGraph.whenReady {
+    val isAssemblingRelease = allTasks.any { it.name.contains("Release") }
+    if (isAssemblingRelease) {
+        if (tmdbApiKey.isBlank()) {
+            throw GradleException("TMDB_API_KEY is required for release builds.")
+        }
+        if (keystoreFile.isBlank() || keystorePassword.isBlank() ||
+            releaseKeyAlias.isBlank() || releaseKeyPassword.isBlank()
+        ) {
+            throw GradleException(
+                "Release signing (KEYSTORE_FILE/KEYSTORE_PASSWORD/KEY_ALIAS/KEY_PASSWORD) is required."
+            )
+        }
+    }
+}
+
 android {
     namespace = "com.ahmadabuhasan.movietmdb"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    ndkVersion = libs.versions.ndkVersion.get()
 
     defaultConfig {
         applicationId = "com.ahmadabuhasan.movietmdb"
-        minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField(
-            "String",
-            "TMDB_API_KEY",
-            "\"${localProperties.getProperty("TMDB_API_KEY", "")}\""
-        )
+        externalNativeBuild {
+            cmake {
+                cppFlags("-Dapi_key=$tmdbApiKey")
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("CMakeLists.txt")
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            if (keystoreFile.isNotBlank()) {
+                storeFile = file(keystoreFile)
+                storePassword = keystorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
+        }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
