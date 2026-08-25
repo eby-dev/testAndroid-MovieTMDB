@@ -14,7 +14,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.ahmadabuhasan.movietmdb.R
 import com.ahmadabuhasan.movietmdb.core.result.UiState
 import com.ahmadabuhasan.movietmdb.databinding.FragmentMovieDetailBinding
@@ -40,8 +39,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMovieDetailBinding.bind(view)
 
-        NavigationUI.setupWithNavController(binding.toolbar, findNavController())
         binding.toolbar.title = getString(R.string.movie_detail_screen_title)
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         binding.buttonRetry.setOnClickListener { viewModel.retry() }
 
         viewLifecycleOwner.lifecycleScope.launch {
