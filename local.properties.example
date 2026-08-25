@@ -1,0 +1,9 @@
+# Copy this file to "local.properties" (same directory) and fill in real values.
+# local.properties is gitignored and must NEVER be committed.
+
+# Path to your local Android SDK installation.
+sdk.dir=/path/to/Android/Sdk
+
+# TMDB API Read Access Token (v4 auth) or v3 API key.
+# Get one at https://www.themoviedb.org/settings/api
+TMDB_API_KEY=your_tmdb_api_key_here
