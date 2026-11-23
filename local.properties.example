@@ -7,3 +7,10 @@ sdk.dir=/path/to/Android/Sdk
 # TMDB API Read Access Token (v4 auth) or v3 API key.
 # Get one at https://www.themoviedb.org/settings/api
 TMDB_API_KEY=your_tmdb_api_key_here
+
+# Release signing - only required for assembleRelease/bundleRelease.
+# Not needed for debug builds.
+KEYSTORE_FILE=/path/to/release.keystore
+KEYSTORE_PASSWORD=your_keystore_password
+KEY_ALIAS=your_key_alias
+KEY_PASSWORD=your_key_password
