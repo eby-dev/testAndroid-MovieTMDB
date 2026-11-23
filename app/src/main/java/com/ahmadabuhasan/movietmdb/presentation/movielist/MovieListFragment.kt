@@ -2,17 +2,20 @@ package com.ahmadabuhasan.movietmdb.presentation.movielist
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ahmadabuhasan.movietmdb.R
 import com.ahmadabuhasan.movietmdb.databinding.FragmentMovieListBinding
+import com.ahmadabuhasan.movietmdb.domain.model.Movie
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,7 +30,7 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
 
     private val viewModel: MovieListViewModel by viewModels()
 
-    private val movieAdapter = MovieListAdapter()
+    private val movieAdapter = MovieListAdapter(onMovieClick = ::navigateToMovieDetail)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,6 +83,13 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
                 }
             }
         }
+    }
+
+    private fun navigateToMovieDetail(movie: Movie) {
+        findNavController().navigate(
+            R.id.action_movieListFragment_to_movieDetailFragment,
+            bundleOf("movieId" to movie.id)
+        )
     }
 
     override fun onDestroyView() {

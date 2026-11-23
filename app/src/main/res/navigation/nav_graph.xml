@@ -30,6 +30,38 @@
             android:name="genreName"
             app:argType="string" />
 
+        <action
+            android:id="@+id/action_movieListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.ahmadabuhasan.movietmdb.presentation.detail.MovieDetailFragment"
+        android:label="@string/movie_detail_screen_title"
+        tools:layout="@layout/fragment_movie_detail">
+
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_movieDetailFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="com.ahmadabuhasan.movietmdb.presentation.reviews.ReviewsFragment"
+        android:label="@string/reviews_screen_title"
+        tools:layout="@layout/fragment_reviews">
+
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+
     </fragment>
 
 </navigation>
