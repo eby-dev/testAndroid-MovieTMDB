@@ -11,6 +11,7 @@ local.properties
 
 # Log/OS files
 *.log
+*.hprof
 Thumbs.db
 
 # Signing / secrets
