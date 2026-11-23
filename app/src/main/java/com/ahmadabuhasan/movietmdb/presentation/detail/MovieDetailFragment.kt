@@ -41,6 +41,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         _binding = FragmentMovieDetailBinding.bind(view)
 
         NavigationUI.setupWithNavController(binding.toolbar, findNavController())
+        binding.toolbar.title = getString(R.string.movie_detail_screen_title)
         binding.buttonRetry.setOnClickListener { viewModel.retry() }
 
         viewLifecycleOwner.lifecycleScope.launch {

@@ -3,6 +3,7 @@ package com.ahmadabuhasan.movietmdb.data.remote.api
 import com.ahmadabuhasan.movietmdb.data.remote.dto.GenreListResponse
 import com.ahmadabuhasan.movietmdb.data.remote.dto.MovieDetailDto
 import com.ahmadabuhasan.movietmdb.data.remote.dto.MovieListResponse
+import com.ahmadabuhasan.movietmdb.data.remote.dto.ReviewListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -28,4 +29,11 @@ interface TmdbApiService {
         @Query("append_to_response") appendToResponse: String = "videos",
         @Query("language") language: String = "en-US"
     ): MovieDetailDto
+
+    @GET("movie/{movie_id}/reviews")
+    suspend fun getReviews(
+        @Path("movie_id") movieId: Int,
+        @Query("page") page: Int,
+        @Query("language") language: String = "en-US"
+    ): ReviewListResponse
 }

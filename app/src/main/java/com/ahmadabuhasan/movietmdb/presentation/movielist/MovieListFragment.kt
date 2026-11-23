@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
@@ -35,6 +36,9 @@ class MovieListFragment : Fragment(R.layout.fragment_movie_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMovieListBinding.bind(view)
+
+        NavigationUI.setupWithNavController(binding.toolbar, findNavController())
+        binding.toolbar.title = getString(R.string.movie_list_screen_title)
 
         setupRecyclerView()
         binding.buttonRetry.setOnClickListener { movieAdapter.retry() }
