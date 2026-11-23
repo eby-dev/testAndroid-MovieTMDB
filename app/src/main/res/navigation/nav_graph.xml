@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/genreFragment">
+
+    <fragment
+        android:id="@+id/genreFragment"
+        android:name="com.ahmadabuhasan.movietmdb.presentation.genre.GenreFragment"
+        android:label="@string/genre_screen_title"
+        tools:layout="@layout/fragment_genre">
+
+        <action
+            android:id="@+id/action_genreFragment_to_movieListFragment"
+            app:destination="@id/movieListFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieListFragment"
+        android:name="com.ahmadabuhasan.movietmdb.presentation.movielist.MovieListFragment"
+        android:label="@string/movie_list_screen_title"
+        tools:layout="@layout/fragment_movie_list">
+
+        <argument
+            android:name="genreId"
+            app:argType="integer" />
+        <argument
+            android:name="genreName"
+            app:argType="string" />
+
+    </fragment>
+
+</navigation>
