@@ -5,6 +5,7 @@
     <string name="movie_list_screen_title">Movies</string>
     <string name="genre_empty_message">No genres available</string>
     <string name="action_retry">Retry</string>
+    <string name="action_navigate_up">Navigate up</string>
     <string name="movie_empty_message">No movies found for this genre</string>
 
     <string name="movie_detail_screen_title">Movie Detail</string>

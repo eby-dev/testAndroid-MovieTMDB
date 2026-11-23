@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "android-testTMDB"
+rootProject.name = "testAndroid-MovieTMDB"
 include(":app")
